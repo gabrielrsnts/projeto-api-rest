@@ -14,14 +14,14 @@ classDiagram
         -String password
     }
     
-    class Categoria {
+    class Categories {
         -String icon
         -String name
         -String description
     }
     
     class Item {
-        -String Categorias
+        -String Categories
         -String icon
         -String name
         -double price
