@@ -33,8 +33,8 @@ classDiagram
     }
     
     User "1" -- "1" Account
-    User "1" -- "*" Categoria
-    User "1" -- "*" Item
-    User "1" -- "*" Order
-    Categoria "1" -- "*" Item
-    Item "1" -- "*" Order
+    User "1" -- "N" Categories
+    User "1" -- "N" Item
+    User "1" -- "N" Order
+    Categories "1" -- "N" Item
+    Item "1" -- "N" Order
