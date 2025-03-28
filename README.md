@@ -6,13 +6,10 @@
 classDiagram
     class User {
         -String name
-        -Account account
-    }
-    
-    class Account {
         -String login
         -String password
     }
+
     
     class Categories {
         -String icon
@@ -32,7 +29,6 @@ classDiagram
         -String item
     }
     
-    User "1" -- "1" Account
     User "1" -- "N" Categories
     User "1" -- "N" Item
     User "1" -- "N" Order
