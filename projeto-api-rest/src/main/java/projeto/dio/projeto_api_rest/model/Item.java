@@ -32,9 +32,9 @@ public class Item {
     @JoinColumn(name = "categories_id")
     private Categories categories;
 
-    @OneToMany(mappedBy = "items", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
-    private List<Order> orders;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Order orders;
 
 
 }
