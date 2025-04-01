@@ -2,11 +2,17 @@ package projeto.dio.projeto_api_rest.service;
 
 import org.springframework.stereotype.Service;
 import projeto.dio.projeto_api_rest.model.Item;
+import projeto.dio.projeto_api_rest.model.Item;
 import projeto.dio.projeto_api_rest.model.User;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface ItemService {
-    Item findById(long id);
-
-    Item itemCreate(Item itemToCreate);
+    List<Item> getAllItems();
+    Optional<Item> getItemById(Long id);
+    Item createItem(Item item);
+    Item updateItem(Long id, Item item);
+    void deleteItem(Long id);
 }

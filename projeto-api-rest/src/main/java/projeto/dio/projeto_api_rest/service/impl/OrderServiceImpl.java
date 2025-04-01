@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order createOrder(Order order) {
-        order.setStatus("PENDING"); // Define status inicial
+        order.setStatus("PENDING");
         return orderRepository.save(order);
     }
 
@@ -41,7 +41,6 @@ public class OrderServiceImpl implements OrderService {
         Order existingOrder = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
 
-        // Atualizando os dados do pedido existente
         existingOrder.setStatus(order.getStatus());
         existingOrder.setItems(order.getItems());
 
