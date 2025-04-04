@@ -3,24 +3,26 @@ package projeto.dio.projeto_api_rest.service.impl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 import projeto.dio.projeto_api_rest.service.JwtService;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.function.Function;
 
 @Service
 public class JwtServiceImpl implements JwtService {
 
-    private final String SECRET_KEY = "chaveSecretaSuperSegura"; // 🔒 Troque por uma chave mais segura!
+    private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256); // 🔒 Gera uma chave segura
 
     @Override
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // Token válido por 1 hora
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hora de validade
+                .signWith(SECRET_KEY)
                 .compact();
     }
 
@@ -30,8 +32,9 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public boolean isTokenValid(String token) {
-        return !isTokenExpired(token);
+    public boolean isTokenValid(String token, String username) {
+        final String extractedUsername = extractUsername(token);
+        return (extractedUsername.equals(username) && !isTokenExpired(token));
     }
 
     private boolean isTokenExpired(String token) {
@@ -39,11 +42,11 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = Jwts.parser()
+        final Claims claims = Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
         return claimsResolver.apply(claims);
     }
 }
-

@@ -15,11 +15,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.userCreate(user);
-        return ResponseEntity.ok(createdUser);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
@@ -45,12 +40,5 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<String> authenticate(@RequestParam String login, @RequestParam String password) {
-        boolean isAuthenticated = userService.authenticate(login, password);
-        if (isAuthenticated) {
-            return ResponseEntity.ok("Usuário autenticado com sucesso.");
-        }
-        return ResponseEntity.status(401).body("Falha na autenticação.");
-    }
+
 }

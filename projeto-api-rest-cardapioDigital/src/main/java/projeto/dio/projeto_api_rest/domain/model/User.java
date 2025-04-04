@@ -2,9 +2,9 @@ package projeto.dio.projeto_api_rest.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "tab_user")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -22,11 +22,13 @@ public class User {
 
     @NonNull
     @Column(unique = true)
-    private String login;
+    private String email;
 
     @NonNull
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;  // Adicionando a role do usuário
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
@@ -40,16 +42,34 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Order> order;
 
-    // Método para criptografar a senha
-    public void setPassword(String password) {
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        this.password = encoder.encode(password);
+    // Implementação do UserDetails para segurança
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(() -> "ROLE_" + this.role.name());
     }
 
-    // Método para verificar se a senha é válida
-    public boolean checkPassword(String rawPassword) {
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.matches(rawPassword, this.password);
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

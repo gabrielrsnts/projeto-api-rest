@@ -1,6 +1,6 @@
 package projeto.dio.projeto_api_rest.domain.model;
 
-public enum Roles {
+public enum Role {
     ADMIN,
     CLIENTE
 }
