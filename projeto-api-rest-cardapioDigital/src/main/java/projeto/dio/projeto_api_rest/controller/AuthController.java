@@ -3,7 +3,6 @@ package projeto.dio.projeto_api_rest.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import projeto.dio.projeto_api_rest.domain.model.User;
-import projeto.dio.projeto_api_rest.dto.LoginRequest;
 import projeto.dio.projeto_api_rest.service.UserService;
 
 @RestController
@@ -22,7 +21,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<String> login(@RequestBody User request) {
         try {
             String token = userService.authenticate(request.getEmail(), request.getPassword());
             return ResponseEntity.ok(token);
