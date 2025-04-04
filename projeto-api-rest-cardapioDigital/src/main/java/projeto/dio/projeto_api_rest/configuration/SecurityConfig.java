@@ -36,8 +36,8 @@ public class SecurityConfig {
                         ).permitAll() // Permite acesso ao Swagger e OpenAPI
                         .requestMatchers("/auth/**").permitAll() // Permite login e registro
                         .requestMatchers("/**").permitAll()
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN") // Protege rotas ADMIN
-                        .requestMatchers("/client/**").hasAuthority("CLIENTE") // Protege rotas CLIENTE
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/client/**").hasAuthority("CLIENTE")
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)

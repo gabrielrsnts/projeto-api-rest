@@ -1,4 +1,4 @@
-package projeto.dio.projeto_api_rest.security;
+package projeto.dio.projeto_api_rest.controller.exception;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
