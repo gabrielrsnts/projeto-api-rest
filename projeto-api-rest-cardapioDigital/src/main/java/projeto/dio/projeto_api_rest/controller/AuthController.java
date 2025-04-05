@@ -26,7 +26,7 @@ public class AuthController {
             String token = userService.authenticate(request.getEmail(), request.getPassword());
             return ResponseEntity.ok(token);
         } catch (Exception e) {
-            e.printStackTrace(); // ⚠️ Vai mostrar o erro real no terminal
+            e.printStackTrace();
             return ResponseEntity.status(500).body("Erro interno: " + e.getMessage());
         }
     }

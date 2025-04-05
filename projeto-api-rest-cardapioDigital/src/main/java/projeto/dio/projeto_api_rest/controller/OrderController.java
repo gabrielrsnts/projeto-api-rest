@@ -3,6 +3,9 @@ package projeto.dio.projeto_api_rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import projeto.dio.projeto_api_rest.DTO.CreateOrderRequestDTO;
+import projeto.dio.projeto_api_rest.DTO.OrderResponseDTO;
+import projeto.dio.projeto_api_rest.DTO.UpdateOrderRequestDTO;
 import projeto.dio.projeto_api_rest.domain.model.Order;
 import projeto.dio.projeto_api_rest.service.OrderService;
 
@@ -17,26 +20,26 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order createdOrder = orderService.createOrder(order);
+    public ResponseEntity<Order> createOrder(@RequestBody CreateOrderRequestDTO dto) {
+        Order createdOrder = orderService.createOrder(dto);
         return ResponseEntity.ok(createdOrder);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Order>> getOrderById(@PathVariable Long id) {
-        Optional<Order> order = orderService.getOrderById(id);
-        return ResponseEntity.ok(order);
+    public ResponseEntity<OrderResponseDTO> getOrderById(@PathVariable Long id) {
+        return orderService.getOrderById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
-        return ResponseEntity.ok(orders);
+    public ResponseEntity<List<OrderResponseDTO>> getAllOrders() {
+        return ResponseEntity.ok(orderService.getAllOrders());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
-        Order updatedOrder = orderService.updateOrder(id, order);
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody UpdateOrderRequestDTO dto) {
+        Order updatedOrder = orderService.updateOrder(id, dto);
         return ResponseEntity.ok(updatedOrder);
     }
 

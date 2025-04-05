@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import projeto.dio.projeto_api_rest.controller.exception.CustomAuthenticationException;
 import projeto.dio.projeto_api_rest.controller.exception.UserNotFoundException;
 import projeto.dio.projeto_api_rest.domain.model.User;
 import projeto.dio.projeto_api_rest.domain.repository.UserRepository;
@@ -15,7 +14,6 @@ import projeto.dio.projeto_api_rest.service.JwtService;
 import projeto.dio.projeto_api_rest.service.UserService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
