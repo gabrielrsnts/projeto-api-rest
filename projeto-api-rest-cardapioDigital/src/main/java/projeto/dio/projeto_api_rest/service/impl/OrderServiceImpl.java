@@ -3,7 +3,7 @@ package projeto.dio.projeto_api_rest.service.impl;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import projeto.dio.projeto_api_rest.DTO.*;
+import projeto.dio.projeto_api_rest.DTO.order.*;
 import projeto.dio.projeto_api_rest.domain.model.Item;
 import projeto.dio.projeto_api_rest.domain.model.Order;
 import projeto.dio.projeto_api_rest.domain.model.OrderItem;

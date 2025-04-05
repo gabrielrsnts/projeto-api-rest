@@ -25,7 +25,7 @@ public class Item {
 
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categories_id")
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Categories categories;
 }

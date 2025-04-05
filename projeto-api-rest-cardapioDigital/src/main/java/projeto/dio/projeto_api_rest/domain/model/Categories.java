@@ -1,11 +1,13 @@
 package projeto.dio.projeto_api_rest.domain.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,8 +25,9 @@ public class Categories {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "categories", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Item> items;
+    @OneToMany(mappedBy = "categories", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Item> items = new ArrayList<>();
 
 
 

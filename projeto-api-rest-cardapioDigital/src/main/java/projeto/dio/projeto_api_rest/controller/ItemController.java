@@ -1,8 +1,11 @@
 package projeto.dio.projeto_api_rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import projeto.dio.projeto_api_rest.DTO.item.CreateItemRequestDTO;
+import projeto.dio.projeto_api_rest.DTO.item.ItemResponseDTO;
 import projeto.dio.projeto_api_rest.domain.model.Item;
 import projeto.dio.projeto_api_rest.service.ItemService;
 
@@ -17,20 +20,20 @@ public class ItemController {
     private ItemService itemService;
 
     @PostMapping
-    public ResponseEntity<Item> createItem(@RequestBody Item item) {
-        Item createdItem = itemService.createItem(item);
-        return ResponseEntity.ok(createdItem);
+    public ResponseEntity<Item> createItem(@RequestBody CreateItemRequestDTO dto) {
+        Item createdItem = itemService.createItem(dto);
+        return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Item>> getItemById(@PathVariable Long id) {
-        Optional<Item> item = itemService.getItemById(id);
+    public ResponseEntity<Optional<ItemResponseDTO>> getItemById(@PathVariable Long id) {
+        Optional<ItemResponseDTO> item = itemService.getItemById(id);
         return ResponseEntity.ok(item);
     }
 
     @GetMapping
-    public ResponseEntity<List<Item>> getAllItems() {
-        List<Item> items = itemService.getAllItems();
+    public ResponseEntity<List<ItemResponseDTO>> getAllItems() {
+        List<ItemResponseDTO> items = itemService.getAllItems();
         return ResponseEntity.ok(items);
     }
 

@@ -3,14 +3,13 @@ package projeto.dio.projeto_api_rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import projeto.dio.projeto_api_rest.DTO.CreateOrderRequestDTO;
-import projeto.dio.projeto_api_rest.DTO.OrderResponseDTO;
-import projeto.dio.projeto_api_rest.DTO.UpdateOrderRequestDTO;
+import projeto.dio.projeto_api_rest.DTO.order.CreateOrderRequestDTO;
+import projeto.dio.projeto_api_rest.DTO.order.OrderResponseDTO;
+import projeto.dio.projeto_api_rest.DTO.order.UpdateOrderRequestDTO;
 import projeto.dio.projeto_api_rest.domain.model.Order;
 import projeto.dio.projeto_api_rest.service.OrderService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")

@@ -1,7 +1,8 @@
-package projeto.dio.projeto_api_rest.DTO;
+package projeto.dio.projeto_api_rest.DTO.order;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.List;
 
 @Getter
