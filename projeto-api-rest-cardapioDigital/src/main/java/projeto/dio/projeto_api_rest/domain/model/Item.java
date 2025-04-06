@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import projeto.dio.projeto_api_rest.domain.model.Categories;
 
 @Entity(name = "tab_item")
 @Getter
