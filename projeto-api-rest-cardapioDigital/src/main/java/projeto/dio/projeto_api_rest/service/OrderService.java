@@ -17,4 +17,6 @@ public interface OrderService {
     Order updateOrder(Long orderId, UpdateOrderRequestDTO dto);
     void deleteOrder(Long id);
     List<Order> getOrdersByStatus(String status);
+    List<OrderResponseDTO> getOrdersByAuthenticatedUser();
+
 }

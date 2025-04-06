@@ -2,13 +2,16 @@ package projeto.dio.projeto_api_rest.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import projeto.dio.projeto_api_rest.DTO.order.*;
 import projeto.dio.projeto_api_rest.domain.model.Item;
 import projeto.dio.projeto_api_rest.domain.model.Order;
 import projeto.dio.projeto_api_rest.domain.model.OrderItem;
+import projeto.dio.projeto_api_rest.domain.model.User;
 import projeto.dio.projeto_api_rest.domain.repository.ItemRepository;
 import projeto.dio.projeto_api_rest.domain.repository.OrderRepository;
+import projeto.dio.projeto_api_rest.domain.repository.UserRepository;
 import projeto.dio.projeto_api_rest.service.OrderService;
 
 import java.util.ArrayList;
@@ -20,11 +23,13 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, ItemRepository itemRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, ItemRepository itemRepository, UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.itemRepository = itemRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -47,8 +52,14 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setStatus(dto.getStatus());
 
-        List<OrderItem> orderItems = new ArrayList<>();
+        // Pega o email do usuário autenticado
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
+        order.setUser(user); // Associa o user ao pedido
+
+        List<OrderItem> orderItems = new ArrayList<>();
         for (OrderItemRequestDTO itemDto : dto.getOrderItems()) {
             Item item = itemRepository.findById(itemDto.getItemId())
                     .orElseThrow(() -> new RuntimeException("Item com ID " + itemDto.getItemId() + " não encontrado"));
@@ -117,5 +128,17 @@ public class OrderServiceImpl implements OrderService {
         }).toList();
 
         return new OrderResponseDTO(order.getId(), order.getStatus(), itemDTOs);
+    }
+
+    @Override
+    @Transactional
+    public List<OrderResponseDTO> getOrdersByAuthenticatedUser() {
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        return orderRepository.findByUser(user).stream()
+                .map(this::mapToResponseDTO)
+                .toList();
     }
 }
