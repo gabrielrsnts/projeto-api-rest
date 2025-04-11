@@ -6,7 +6,7 @@
 classDiagram
     class User {
         -String name
-        -String login
+        -String email
         -String password
     }
 
